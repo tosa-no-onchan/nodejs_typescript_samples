@@ -12,7 +12,7 @@ $ npm install
   
 
 ### build  
-.env を作成します。
+.env を作成します。  
 SESSION_SECRET=  
 SMTP_HOST=your-smtp-server  
 SMTP_PORT=465  
@@ -25,7 +25,7 @@ $ node -e "console.log(require('cripto').randomVytes(32).toString('hex'))"
 
 
 src/controllers/mailFormController.ts の修正。  
-line 122 を修正する。
+line 122 を修正する。  
       to: "xxxx@xxxx.com", // 管理者の受信アドレス
 
 $ npx tsc  
@@ -33,11 +33,11 @@ $ npx tsc
 ### run  
 $ node dist/index.js  
 
-### brower  
+### browzer  
 htp://localhost:3000/  
 
-管理者ページ id と パスワード 
-admin/onchan
-onchan/onchan
+管理者ページ id と パスワード   
+admin / onchan  
+onchan / onchan  
 
 
