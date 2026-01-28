@@ -119,7 +119,7 @@ export const getFormSend = async (req: Request, res: Response) => {
       // メールの内容設定
       const mailOptions = {
       from: `"${formData.yname}" <${process.env.SMTP_USER}>`, // 送信元
-      to: "office@netosa.com", // 管理者の受信アドレス
+      to: "xxxxe@xxxxx.com", // 管理者の受信アドレス
       replyTo: formData.ymail, // ユーザーのアドレス（返信用）
       subject: "お問い合わせフォームからのメッセージ",
       //text: `
