@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1 class="text16"><%= title %></h1>
+    <div>
+メール文面のテンプレートを登録します。<br />
+メール文面の中には、置換文字が使えます。<br />
+<br />
+名前: {{yname}}<br />
+メール: {{ymail}}<br />
+内容:{{ycomments}}<br />
+        <br />
+    </div>
+  <form action="/admin/template_ent" method="POST" name="FrontPage_Form1">
+    <div style="width:1500px;">
+        <table width="100%">
+        <thead>
+            <tr>
+                <th>メール文面</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <% if( mail_text != null){ %>
+                    <textarea name="mail_text" rows="20" cols="73" placeholder="Mail 本文 を、ご記入ください。" required style="padding:1px 4px 1px 4px;line-height:130%;"><%= mail_text %></textarea>
+                    <% } else{ %>
+                    <textarea name="mail_text" rows="20" cols="73" placeholder="Mail 本文 を、ご記入ください。" required style="padding:1px 4px 1px 4px;line-height:130%;"></textarea>
+                    <% } %>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    <button type="submit" name="go_new" value="1">Send</button>
+    </div>
+    </form>
+    <br />
+    <a href="/admin">Admin メニュー へ、戻る</a><br />
+</body>
+</html>

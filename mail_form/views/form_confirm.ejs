@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1 class="text16"><%= title %></h1>
+  <form action="/form/send" method="GET" name="FrontPage_Form1">
+    <div style="width:1500px;">
+        <table width="100%">
+            <tr>
+                <td width="200px">Your Name</td>
+                <td>
+                    <%= yname %>
+                </td>
+            </tr>
+            <tr>
+                <td width="100px">Your Mail Address</td>
+                <td>
+                    <%= ymail %>
+                </td>
+            </tr>
+            <tr>
+                <td width="100px">コメント</td>
+                <td>
+                    <%= ycomments %>
+                </td>
+            </tr>
+        </table>
+    <button type="submit" name="go_send" value="1">Send</button>
+    </div>
+    </form>
+    <br />
+    <a href="/">戻る</a><br />
+</body>
+</html>

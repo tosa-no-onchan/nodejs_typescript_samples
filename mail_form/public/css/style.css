@@ -1,0 +1,75 @@
+h1{
+  color: mediumvioletred;
+}
+
+/* 13px */
+.text13 {
+ font-size:13px;
+ line-height:150%;
+}
+
+/* 15px */
+.text15 {
+ font-size:15px;
+ line-height:150%;
+}
+
+/* 16px */
+.text16 {
+ font-size:16px;
+ line-height:150%;
+/* letter-spacing:2px; */
+}
+
+/* 17px */
+.text17 {
+ font-size:17px;
+ font-family:"MS Pゴシック";
+ line-height:150%;
+/* letter-spacing:1px; */
+}
+
+body{
+    margin: 1rem 50px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+    margin: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+textarea {
+width: 100%; /* または任意の固定幅 (例: 300px) */
+box-sizing: border-box; /* パディングとボーダーをwidthの計算に含める */
+resize: none; /* リサイズを完全に禁止 */
+/* または */
+/* resize: vertical; */ /* 垂直方向のみリサイズ許可 */
+/* または */
+/* resize: horizontal; */ /* 水平方向のみリサイズ許可 */
+}
+
+form {
+    /* display: flex; */
+    /* flex-direction: column;
+    max-width: 500px; */
+    /* margin: 1rem 50px; */
+    margin: 1rem 1px;
+}
+input {
+    margin-bottom: 1rem;
+}
+
+.no-dot {
+  list-style: none; /* 点を消す */
+}
+li {
+    line-height:40px;
+}

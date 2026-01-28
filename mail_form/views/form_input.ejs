@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1 class="text16"><%= title %></h1>
+  <form action="/form/confirm" method="POST" name="FrontPage_Form1">
+    <div style="width:1500px;">
+        <table width="100%">
+            <tr>
+                <td width="200px">Your Name</td>
+                <td>
+                    <% if( yname != null){ %>
+                    <input type="text" name="yname" value="<%= yname %>" placeholder="お名前" minlength="1" maxlength="70" size="70" required><br />
+                    <% } else{ %>
+                    <input type="text" name="yname" placeholder="お名前" minlength="1" maxlength="70" size="70" required><br />
+                    <% } %>
+                </td>
+            </tr>
+            <tr>
+                <td width="100px">Your Mail Address</td>
+                <td>
+                    <% if( ymail != null){ %>
+                    <input type="email" name="ymail" value="<%= ymail %>" placeholder="ymail@googel.com" maxlength="70" pattern="^[a-zA-Z0-9.!#$&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$" size="70" required />
+                    <% } else{ %>
+                    <input type="email" name="ymail" placeholder="ymail@googel.com" maxlength="70" pattern="^[a-zA-Z0-9.!#$&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$" size="70" required />
+                    <% } %>
+                </td>
+            </tr>
+            <tr>
+                <td width="100px">コメント</td>
+                <td>
+                    <% if( ycomments != null){ %>
+                    <textarea name="ycomments" rows="8" cols="73" placeholder="こめんとを、ご記入ください。" required style="padding:1px 4px 1px 4px;line-height:130%;"><%= ycomments %></textarea>
+                    <% } else{ %>
+                    <textarea name="ycomments" rows="8" cols="73" placeholder="こめんとを、ご記入ください。" required style="padding:1px 4px 1px 4px;line-height:130%;"></textarea>
+                    <% } %>
+                </td>
+            </tr>
+        </table>
+    <button type="submit" name="go_new" value="1">Send</button>
+    </div>
+    </form>
+    <br />
+    <a href="/">戻る</a><br />
+</body>
+</html>
