@@ -30,6 +30,14 @@ line 122 を修正する。
 
 $ npx tsc  
 
+### redis-server をインストールする。  
+$ sudo apt update  
+$ sudo apt install redis-server  
+チェック  
+$ sudo systemctl status redis-server  
+$ redis-cli ping  
+PONG  
+  
 ### run  
 $ node dist/index.js  
 
