@@ -20,7 +20,7 @@ SMTP_USER=your-mail-user-id
 SMTP_PASS=your-mail-passwd  
   
 SESSION_SECRET の作成方法。  
-$ node -e "console.log(require('cripto').randomVytes(32).toString('hex'))"  
+$ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"  
 で出てきたテキストを使う。  
 
 
