@@ -7,8 +7,8 @@ import { access } from 'fs/promises';
 import * as fsp from 'fs/promises';
 import * as fs from 'fs';
 // ファイルロック用
-import { lock, unlock } from 'proper-lockfile';
-
+//import { lock, unlock,check } from 'proper-lockfile';
+import * as loc from 'proper-lockfile';
 
 async function checkFileExists(filePath: string): Promise<boolean> {
   try {
@@ -143,11 +143,24 @@ async function readTextFile(obj:{rec:string},filePath:string,lock_filePath:strin
   //const filePath = './output.txt';
   let release;
   let rc_s:string='';
+  const stale_max:number = 60000; // [ms]
   // 非同期処理の、fs.promises.readFile(fs/promises) を使った async/await 形式を使うこと
   try {
+    // 古いロックがあるかチェック、nnn[ms] 以上ならstale とみなす
+    const isLocked = await loc.check(lock_filePath, { stale: stale_max });
+    if (isLocked) {
+      console.error('readTextFile(): #3 check エラー');
+      // 必要に応じて古いファイルを強制削除
+      await loc.unlock(lock_filePath); 
+    }
     // 1. ロックを取得 (ファイルが使用中の場合はエラー、またはリトライ設定が可能)
     // retries: リトライ回数と間隔の設定
-    release = await lock(lock_filePath, { retries: { retries: 5, minTimeout: 100 } });
+    release = await loc.lock(lock_filePath, {
+      // stale: nnn [ms]
+      // ロック作成から nnn[ms] 以上経過していれば、そのロックは「死んでいる」とみなして破棄する
+      // デフォルトの stale 設定は 10,000ms（10秒） --> 効かないみたい!!
+      //update: 2000,  // 2秒ごとに生存確認を更新する
+      retries: { retries: 5, minTimeout: 100 } });
     // ファイルを読み込む（'utf8' を指定して文字列として取得）
     obj.rec = await fsp.readFile(filePath, 'utf8');
   } 
@@ -180,11 +193,24 @@ async function writeTextFile(rec:string,filePath:string,lock_filePath:string): P
   //const filePath = './output.txt';
   let release;
   let rc_s:string='';
+  const stale_max:number = 60000;
   // 非同期処理の、fs.promises.writeFile(fs/promises) を使った async/await 形式を使うこと
   try {
+    // 古いロックがあるかチェック、nnn[ms] 以上ならstale とみなす
+    const isLocked = await loc.check(lock_filePath, { stale: stale_max });
+    if (isLocked) {
+      console.error('writeTextFile(): #3 check エラー');
+      // 必要に応じて古いファイルを強制削除
+      await loc.unlock(lock_filePath); 
+    }
     // 1. ロックを取得 (ファイルが使用中の場合はエラー、またはリトライ設定が可能)
     // retries: リトライ回数と間隔の設定
-    release = await lock(lock_filePath, { retries: { retries: 5, minTimeout: 100 } });
+    release = await loc.lock(lock_filePath, {
+      // stale: nnn [ms]
+      // ロック作成から nnn[ms] 以上経過していれば、そのロックは「死んでいる」とみなして破棄する
+      // デフォルトの stale 設定は 10,000ms（10秒）
+      //update: 2000,  // 2秒ごとに生存確認を更新する
+      retries: { retries: 5, minTimeout: 100 } });
     // ファイルが存在しない場合は作成、存在する場合は上書き
     await fsp.writeFile(filePath, rec, 'utf-8');
     //console.log('書き込み完了');
