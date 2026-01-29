@@ -44,12 +44,15 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // tmp ディレクトリーを作成
-const tmpDir = path.resolve(__dirname, "../tmp");
+//const tmpDir = path.resolve(__dirname, "../tmp");
+// shared memory を使う。 by nishi 2026.1.19
+const tmpDir = path.resolve("/dev/shm", "mail_from","tmp");
 if (!fs.existsSync(tmpDir)) {
-    fs.mkdirSync(tmpDir);
+  // recursive: true で親ディレクトリも含めて作成し、既存でもエラーにしない
+  fs.mkdirSync(tmpDir, { recursive: true });
 }
 // ロック用のファイルを作成
-const lock_filePath = path.join(__dirname,'../tmp' ,'lock.txt');
+const lock_filePath = path.join(tmpDir,'lock.txt');
 comlib.ensureFile(lock_filePath);
 
 // maile テンプレート
