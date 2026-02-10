@@ -15,3 +15,7 @@ node.js + express + typescript サーバーサイド プログラムを書いて
    認証ミドルウエアを、index.ts の中に組み入れた。  
 6) 認証処理で得た、管理者 id の、サブコントローラへの引き継ぎ。
 7) router + controller による、複数 コントローラプログラムの勉強。  
+
+### chat_ai_ollama  
+ローカルPC で、Ollama を使った、Ai チャットプログラム。  
+node.js + express + typescript で、PC のブラウザーから、テストできます。  
