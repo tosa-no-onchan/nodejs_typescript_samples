@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat ai Ollama</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1 class="text16">よこそ おんちゃんの Chat ai Ollama へ</h1>
+  <br />
+  <ul class="no-dot">
+    <li>自由に、日本語で、問い合わせてください。<br />
+    モデルを変えると、日本語での応答が、改善するみたいです。<br />
+    注) Ubuntu 24.04 PC 12G memory, llama3 and GTX 1070 8GB で、テストしました。<br />
+    </li>
+  </ul>
+<!-- 入力エリア -->
+<form action="/chat" id="chat-form" method="POST">
+  <input type="text" id="user-input" name="message" size="80" required>
+  <button type="submit">送信</button>
+</form>
+
+<!-- 返答を表示するエリア -->
+<div id="response-container" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px; white-space: pre-wrap;"></div>
+
+<script>
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('user-input');
+  const container = document.getElementById('response-container');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // ページ遷移を防止
+    
+    const message = input.value;
+    container.innerText = "考え中..."; // 状態を表示
+    input.value = ""; // 入力をクリア
+
+    try {
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      container.innerText = ""; // 表示をクリアして開始
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        // 届いたチャンクをテキストに変換して追加
+        const text = decoder.decode(value, { stream: true });
+        container.innerText += text; 
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      container.innerText = "エラーが発生しました。";
+    }
+  });
+</script>
+</body>
+</html>
+
