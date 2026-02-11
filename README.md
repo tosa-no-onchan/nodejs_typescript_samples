@@ -19,3 +19,8 @@ node.js + express + typescript サーバーサイド プログラムを書いて
 ### chat_ai_ollama  
 ローカルPC で、Ollama を使った、Ai チャットプログラム。  
 node.js + express + typescript で、PC のブラウザーから、テストできます。  
+
+### chat_ai_ollama_rag  
+上記、 chat_ai_ollama に、RAG (Retrieval-Augmented Generation / 検索拡張生成) を  
+追加しました。  
+node.js + express + typescript で、PC のブラウザーから、テストできます。
