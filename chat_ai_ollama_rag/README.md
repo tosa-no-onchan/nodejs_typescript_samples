@@ -1,6 +1,8 @@
 # nodejs_typescript_samples/chat_ai_ollama_rag  
 node.js + express + typedcript + ejs サーバーサイド and クライアントプログラム  
 chat_ai_ollama_rag  
+chat_ai_ollama に、RAG (Retrieval-Augmented Generation / 検索拡張生成)   
+を、追加しました。  
 
 ### Ollama のインストール  
   
@@ -38,5 +40,6 @@ $ node dist/index.js
 ### browzer  
 htp://localhost:3000/  
 
-
+### RAG ファイルの変更  
+docs/manual.md を、書き換えてください。  
 
