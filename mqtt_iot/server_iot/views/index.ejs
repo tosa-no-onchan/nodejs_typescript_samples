@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>IoT Data Monitor</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1 class="text16">よこそ おんちゃんの IOT MQTT へ</h1>
+  <br />
+  <ul class="no-dot">
+    <li>現在の温度 を収集します</li>
+  </ul>
+  <!-- ここが表示場所です -->
+  <div id="temp-display" style="font-size: 2rem; color: blue;">
+      接続を待っています...
+  </div>
+    <!-- Socket.IO クライアントライブラリ（サーバーが自動配信します） -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        //const socket = io();
+        const socket = io('http://localhost:3000');
+        const display = document.getElementById('temp-display');
+
+        socket.on('sensor-update', (data) => {
+            // ここで <div> の中身を書き換えます
+            display.innerText = `${data.temp} ℃`; 
+            
+            // おまけ：時間も表示する場合 ブラウザーの開発ツール上!!
+            console.log("受信時刻:", data.time);
+        });
+    </script>
+</body>
+</html>
+
