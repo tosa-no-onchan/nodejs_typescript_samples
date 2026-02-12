@@ -24,3 +24,10 @@ node.js + express + typescript で、PC のブラウザーから、テストで�
 上記、 chat_ai_ollama に、RAG (Retrieval-Augmented Generation / 検索拡張生成) を  
 追加しました。  
 node.js + express + typescript で、PC のブラウザーから、テストできます。
+
+### mqtt_iot  
+mqtt での、センサーデータ(温度データの乱数値)の、送信(クライアント) と、サブスクライバーのサンプルアプリケーションです。  
+サブスクライバー は、 node.js + express + typescript で、 mqtt から、センサーデータを、サブスクライブして、  
+HTML の、非同期受信で、ブラウザーから、確認できます。  
+ubuntu 24.04 で、docker から、 mosquitto を動かして、データの中継をさせています。  
+docker が使えれば、簡単にテストできるぞね!!  
