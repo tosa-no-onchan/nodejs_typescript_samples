@@ -10,6 +10,7 @@ import path from 'path';
 
 const app = express();
 
+
 // html からの、/socket.io/socket.io.js の受信の為、今回は、app をラッパーして使います。
 // express のみの利用であれば、本来は、不要です!!
 const httpServer = createServer(app);
@@ -29,15 +30,15 @@ app.set('view engine', 'ejs'); // EJSを使用する設定
 app.set('views', './views');   // テンプレートの場所を指定
 
 // 1. MQTTの接続と受信設定
-//const client = mqtt.connect('mqtt://broker.example.com');
-const client = mqtt.connect('mqtt://localhost:1883');
+//const mqttClient = mqtt.connect('mqtt://broker.example.com');
+const mqttClient = mqtt.connect('mqtt://localhost:1883');
 
-client.on('connect', () => {
+mqttClient.on('connect', () => {
   //client.subscribe('sensors/temp'); // トピックを購読
-  client.subscribe('home/living/temp');
+  mqttClient.subscribe('home/living/temp');
 });
 
-client.on('message', (topic, message) => {
+mqttClient.on('message', (topic, message) => {
   //console.log(`Received: ${message.toString()} from ${topic}`);
 
   // 届いたバイナリデータを JSON オブジェクトに変換
@@ -66,8 +67,19 @@ app.get('/api/status', (req, res) => {
   res.json({ message: "Backend is running and listening to MQTT" });
 });
 
+// Socket.IO の接続イベント内
 io.on('connection', (socket) => {
   console.log('ユーザーが接続しました');
+
+  // ブラウザからの制御信号を受け取る
+  socket.on('control-device', (cmd: string) => {
+    console.log(`Sending command: ${cmd}`);
+    
+    // MQTTでデバイス宛のトピック（例: home/living/light）にパブリッシュ
+    // デバイス側はこのトピックを subscribe しておけば命令を受け取れます
+    mqttClient.publish('home/living/light/cmd', cmd);
+  });
+
 });
 
 

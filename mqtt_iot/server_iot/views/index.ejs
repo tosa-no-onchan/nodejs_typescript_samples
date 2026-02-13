@@ -15,19 +15,74 @@
   <div id="temp-display" style="font-size: 2rem; color: blue;">
       接続を待っています...
   </div>
-    <!-- Socket.IO クライアントライブラリ（サーバーが自動配信します） -->
+  <!-- グラフを表示する場所 -->
+  <div style="width: 80%; margin: auto;">
+      <canvas id="myChart"></canvas>
+  </div>
+
+    <!-- スイッチ用ボタン -->
+    LED スイッチ : <button id="btn-on">ON</button>
+    <button id="btn-off">OFF</button>
+
+    <!-- Chart.js の読み込み -->
+    <!-- <script src="https://cdn.jsdelivr.net"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     
     <script src="/socket.io/socket.io.js"></script>
     <script>
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const maxDataPoints = 20; // 画面に表示する最大データ数
+
+        // グラフの初期設定
+        const myChart = new Chart(ctx, {
+            type: 'line', // 折れ線グラフ
+            data: {
+                labels: [], // 時間軸のラベル
+                datasets: [{
+                    label: 'リアルタイム温度',
+                    data: [], // 温度データ
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            }
+        });
+
         //const socket = io();
         const socket = io('http://localhost:3000');
         const display = document.getElementById('temp-display');
 
-        socket.on('sensor-update', (data) => {
-            // ここで <div> の中身を書き換えます
-            display.innerText = `${data.temp} ℃`; 
+        // ボタンクリックでサーバーへ信号送信
+        document.getElementById('btn-on').onclick = () => socket.emit('control-device', 'ON');
+        document.getElementById('btn-off').onclick = () => socket.emit('control-device', 'OFF');
+
+
+        //socket.on('sensor-update', (data) => {
+        //    // ここで <div> の中身を書き換えます
+        //    display.innerText = `${data.temp} ℃`; 
             
-            // おまけ：時間も表示する場合 ブラウザーの開発ツール上!!
-            console.log("受信時刻:", data.time);
+        //    // おまけ：時間も表示する場合 ブラウザーの開発ツール上!!
+        //    console.log("受信時刻:", data.time);
+        //});
+
+        socket.on('sensor-update', (data) => {
+            const now = new Date().toLocaleTimeString();
+
+            // 0. ここで <div> の中身を書き換えます
+            display.innerText = `${data.temp} ℃`; 
+
+            // 1. ラベル（時間）とデータ（温度）を追加
+            myChart.data.labels.push(now);
+            myChart.data.datasets[0].data.push(data.temp);
+
+            // 2. データが多すぎたら古いものを消す（スクロール効果）
+            if (myChart.data.labels.length > maxDataPoints) {
+                myChart.data.labels.shift();
+                myChart.data.datasets[0].data.shift();
+            }
+
+            // 3. グラフを再描画
+            myChart.update();
         });
     </script>
 </body>
